@@ -12,3 +12,14 @@ git add README.md
 git commit -m "Initial commit"
 git branch -M main
 git push -u origin main
+# Studio X Co. Shopify Theme
+
+This repository contains the Shopify theme for The Studio X Co. hair salon website.
+
+## Theme: Dawn v15.4.0
+
+### Features:
+- Custom SEO optimizations
+- Schema markup for local business
+- Hair salon service templates
+- Booking system integration
