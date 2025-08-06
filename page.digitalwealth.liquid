@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    /* Add Roboto Font */
+    @font-face {
+      font-family: 'Roboto';
+      src: url('{{ "roboto-regular.woff2" | asset_url }}') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Roboto';
+      src: url('{{ "roboto-bold.woff2" | asset_url }}') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #F5F5F5;
+      color: #000000;
+      margin: 0;
+      line-height: 1.6;
+    }
+    .hero {
+      background: #000000;
+      color: #FFFFFF;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .button {
+      background: #C2B280;
+      color: #000000;
+      padding: 15px 40px;
+      border-radius: 5px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-block;
+      margin: 20px 0;
+      border: 2px solid #C2B280;
+    }
+    .testimonial {
+      background: #FFFFFF;
+      padding: 30px;
+      margin: 30px 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .guarantee {
+      background: #C2B280;
+      color: #000000;
+      padding: 25px;
+      text-align: center;
+      margin: 40px 0;
+    }
+    .countdown {
+      font-size: 24px;
+      color: #C2B280;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<div class="hero">
+  <h1>Digital Wealth Academy: Master Resale Rights</h1>
+  <h3>Earn $5,000+/Month Selling This System</h3>
+  <a href="{{ product.url }}" class="button">Get Instant Access →</a>
+  <p>Price increases in: <span class="countdown" id="timer">24:00:00</span></p>
+</div>
+
+<!-- Problem/Solution -->
+<div style="padding: 40px 20px;">
+  <h2>Why Most Resellers Fail</h2>
+  <p>Generic templates and overcrowded markets destroy profits. With DWA, you get:</p>
+  <ul>
+    <li>✅ <strong>Premium Sales Pages</strong> (Sand-colored templates for higher conversions)</li>
+    <li>✅ <strong>Exclusive Licenses</strong> (Limited to 50 users)</li>
+    <li>✅ <strong>2024-Ready Ads</strong> (TikTok/Reels scripts included)</li>
+  </ul>
+</div>
+
+<!-- Social Proof -->
+<div class="testimonial">
+  <h3>“I Made $2,590 in 3 Days!”</h3>
+  <p><em>“The sand-colored sales pages made my offers look expensive, even at $497.”</em></p>
+  <p>– Jessica L., DWA Reseller</p>
+  <img src="{{ 'payment-proof.jpg' | asset_url }}" alt="Earnings proof" width="300" style="margin-top: 15px;">
+</div>
+
+<!-- Features -->
+<div style="background: #FFFFFF; padding: 40px 20px;">
+  <h2>What You’ll Get:</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>
+      <h4>🚀 Done-For-You Funnels</h4>
+      <p>Sales pages converting at 6.8% (tested in 2024).</p>
+    </div>
+    <div>
+      <h4>📈 24/7 Coaching</h4>
+      <p>Access to our private Discord group.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Guarantee -->
+<div class="guarantee">
+  <h3>30-Day "Profit or Keep It Free" Guarantee</h3>
+  <p>If you don’t earn $1,000+, we’ll refund you AND let you keep the course.</p>
+</div>
+
+<!-- CTA -->
+<div style="text-align: center; padding: 60px 20px;">
+  <h2>Join the Elite 5% of Resellers</h2>
+  <a href="{{ product.url }}" class="button">👉 Claim Your License Now</a>
+  <p><strong>Only 7 licenses left!</strong></p>
+</div>
+
+<script>
+  // Countdown Timer
+  let time = 24 * 60 * 60;
+  const timer = setInterval(() => {
+    time--;
+    const hours = Math.floor(time / 3600).toString().padStart(2, '0');
+    const minutes = Math.floor((time % 3600) / 60).toString().padStart(2, '0');
+    const seconds = (time % 60).toString().padStart(2, '0');
+    document.getElementById('timer').textContent = `${hours}:${minutes}:${seconds}`;
+    if (time <= 0) clearInterval(timer);
+  }, 1000);
+</script>
+
+</body>
+</html>
