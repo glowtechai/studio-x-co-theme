@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Studio X — Lead Review</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          gold: { DEFAULT: '#C49C5C', light: '#E8C98A', dim: 'rgba(196,156,92,0.12)' },
+          ink: { DEFAULT: '#09080A', 1: '#0F0D12', 2: '#17151D', 3: '#1E1B26' },
+          cream: '#F0EBE0',
+          muted: '#7A7485',
+        },
+        fontFamily: {
+          serif: ['Playfair Display', 'Georgia', 'serif'],
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { background:#09080A; color:#F0EBE0; font-family:'Inter',sans-serif; }
+  .gold-border { border-color: rgba(196,156,92,0.25); }
+  .gold-text { color: #C49C5C; }
+  .gold-bg { background: rgba(196,156,92,0.1); }
+  .pill { display:inline-block; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; padding:3px 10px; border-radius:99px; }
+  .pill-pending { background:rgba(196,156,92,0.15); color:#C49C5C; }
+  .pill-sent { background:rgba(100,200,120,0.15); color:#7ED6A0; }
+  .pill-deposited { background:rgba(100,160,240,0.15); color:#90C0F0; }
+  .section-label { font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:#7A7485; margin-bottom:8px; }
+  textarea { font-family:'Inter',sans-serif; line-height:1.65; }
+  .send-btn { background: linear-gradient(135deg, #C49C5C, #A07830); transition: all 0.2s; }
+  .send-btn:active { transform:scale(0.97); }
+  .shimmer { background: linear-gradient(90deg,#17151D 25%,#1E1B26 50%,#17151D 75%); background-size:200%; animation:shimmer 1.4s infinite; }
+  @keyframes shimmer { 0%{background-position:200%} 100%{background-position:-200%} }
+  .photo-thumb { aspect-ratio:1; object-fit:cover; background:#17151D; }
+  .method-chip { font-size:11px; letter-spacing:0.12em; font-weight:500; }
+</style>
+</head>
+<body class="min-h-screen pb-32">
+
+<!-- Header -->
+<div class="px-5 pt-safe pt-10 pb-4 border-b gold-border sticky top-0 z-20" style="background:#09080A;">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-xs tracking-widest gold-text uppercase font-medium">The Studio X Co.</p>
+      <p class="text-2xl font-serif" id="headerName">Lead Review</p>
+    </div>
+    <div id="statusPill" class="pill pill-pending">Pending</div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div id="loadingState" class="px-5 pt-8 space-y-4">
+  <div class="h-4 rounded shimmer w-1/2"></div>
+  <div class="h-20 rounded shimmer"></div>
+  <div class="h-40 rounded shimmer"></div>
+  <div class="h-60 rounded shimmer"></div>
+</div>
+
+<!-- Error State -->
+<div id="errorState" class="hidden px-5 pt-12 text-center">
+  <p class="text-4xl mb-4">✦</p>
+  <p class="text-muted text-sm">Unable to load lead. Check the URL and try again.</p>
+</div>
+
+<!-- Main Content -->
+<div id="mainContent" class="hidden">
+
+  <!-- ── Component A: Client Profile ── -->
+  <div class="px-5 pt-6 pb-2">
+    <p class="section-label">Client</p>
+    <div class="rounded border gold-border p-4 space-y-3" style="background:#0F0D12;">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="text-lg font-serif" id="clientName">—</p>
+          <p class="text-sm text-muted mt-0.5" id="clientSource">via —</p>
+        </div>
+        <div class="text-right">
+          <p class="text-xs tracking-wider gold-text" id="clientIG">@—</p>
+          <p class="text-xs text-muted mt-1" id="clientDate">—</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <a id="clientPhone" href="#" class="flex items-center gap-2 text-sm border gold-border rounded px-3 py-2.5 active:opacity-60">
+          <span>📱</span><span class="truncate">—</span>
+        </a>
+        <a id="clientEmail" href="#" class="flex items-center gap-2 text-sm border gold-border rounded px-3 py-2.5 active:opacity-60">
+          <span>✉️</span><span class="truncate">—</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Photos Grid -->
+  <div class="px-5 pt-4 pb-2">
+    <p class="section-label">Hair Photos</p>
+    <div class="grid grid-cols-3 gap-2" id="photosGrid">
+      <div class="photo-thumb rounded border gold-border shimmer"></div>
+      <div class="photo-thumb rounded border gold-border shimmer"></div>
+      <div class="photo-thumb rounded border gold-border shimmer"></div>
+    </div>
+    <p class="text-xs text-muted mt-2 text-center" id="photosNote">Tap to expand</p>
+  </div>
+
+  <!-- Assessment Summary -->
+  <div class="px-5 pt-4 pb-2">
+    <p class="section-label">Assessment</p>
+    <div class="rounded border gold-border p-4 space-y-2" style="background:#0F0D12;">
+      <div class="flex flex-wrap gap-2" id="assessmentChips"></div>
+      <p class="text-sm text-muted leading-relaxed" id="assessmentNotes">—</p>
+    </div>
+  </div>
+
+  <!-- ── Component B: AI Diagnosis ── -->
+  <div class="px-5 pt-4 pb-2">
+    <p class="section-label">AI Analysis</p>
+    <div class="rounded border gold-border overflow-hidden" style="background:#0F0D12;">
+
+      <!-- Diagnosis -->
+      <div class="p-4 border-b gold-border">
+        <p class="text-xs tracking-wider text-muted uppercase mb-2">Diagnosis</p>
+        <p class="text-sm leading-relaxed" id="aiDiagnosis">Processing...</p>
+        <div id="canopyWarning" class="hidden mt-3 px-3 py-2 rounded text-xs leading-relaxed" style="background:rgba(240,160,60,0.1);border:1px solid rgba(240,160,60,0.3);color:#F0A03C;">
+          ⚠️ <strong>Disconnected Canopy Detected</strong> — <span id="canopyNotes"></span>
+        </div>
+      </div>
+
+      <!-- Method + Pricing -->
+      <div class="p-4 border-b gold-border">
+        <p class="text-xs tracking-wider text-muted uppercase mb-3">Recommended Service</p>
+        <div class="flex items-center justify-between">
+          <span class="method-chip gold-text" id="methodName">—</span>
+          <div class="flex gap-2">
+            <span id="flagHonor" class="hidden pill" style="background:rgba(160,220,140,0.15);color:#A0DC8C;">Honor Upgrade</span>
+            <span id="flagCanopy" class="hidden pill" style="background:rgba(240,160,60,0.15);color:#F0A03C;">Canopy Fix</span>
+            <span id="flagDensity" class="hidden pill" style="background:rgba(180,140,240,0.15);color:#B48CF0;">HD Fill</span>
+          </div>
+        </div>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class="p-3 rounded" style="background:#17151D;">
+            <p class="text-xs text-muted mb-1">Length Used</p>
+            <p class="text-base font-medium" id="hairLength">—"</p>
+            <p class="text-xs text-muted" id="gramsNote">—g</p>
+          </div>
+          <div class="p-3 rounded" style="background:#17151D;">
+            <p class="text-xs text-muted mb-1">Dream Length</p>
+            <p class="text-base font-medium" id="dreamLength">—"</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Investment -->
+      <div class="p-4">
+        <p class="text-xs tracking-wider text-muted uppercase mb-3">Investment</p>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <p class="text-xs text-muted">Total Investment</p>
+            <p class="text-2xl font-serif gold-text" id="totalPrice">$—</p>
+          </div>
+          <div>
+            <p class="text-xs text-muted">50% Retainer</p>
+            <p class="text-2xl font-serif" id="depositPrice">$—</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Component C: Intercept Box ── -->
+  <div class="px-5 pt-4 pb-2">
+    <p class="section-label">Text Message</p>
+    <div class="rounded border gold-border overflow-hidden" style="background:#0F0D12;">
+      <div class="px-4 pt-3 pb-1 border-b gold-border flex items-center justify-between">
+        <span class="text-xs text-muted">Sending to: <span id="sendingTo" class="gold-text">—</span></span>
+        <button onclick="resetMessage()" class="text-xs text-muted active:text-cream">↺ Reset</button>
+      </div>
+      <textarea
+        id="messageBox"
+        rows="14"
+        class="w-full px-4 py-3 text-sm text-cream bg-transparent outline-none resize-none"
+        placeholder="Loading compiled message..."
+      ></textarea>
+    </div>
+  </div>
+
+  <!-- Status Update Chips -->
+  <div class="px-5 pt-2 pb-2">
+    <p class="section-label">Update Status</p>
+    <div class="flex flex-wrap gap-2" id="statusChips">
+      <button onclick="setStatus('pending_review')" class="pill pill-pending cursor-pointer active:opacity-60">Pending Review</button>
+      <button onclick="setStatus('sms_sent')" class="pill pill-sent cursor-pointer active:opacity-60">SMS Sent</button>
+      <button onclick="setStatus('deposited')" class="pill pill-deposited cursor-pointer active:opacity-60">Deposited</button>
+      <button onclick="setStatus('archived')" class="pill" style="background:rgba(120,120,120,0.15);color:#888;cursor:pointer;" class="active:opacity-60">Archive</button>
+    </div>
+  </div>
+
+</div><!-- /mainContent -->
+
+<!-- ── Sticky Send Button ── -->
+<div class="fixed bottom-0 left-0 right-0 p-4 z-30" style="background:linear-gradient(to top,#09080A 80%,transparent);">
+  <button
+    id="sendBtn"
+    onclick="sendMessage()"
+    class="send-btn w-full py-4 rounded text-sm font-bold tracking-widest uppercase text-ink-DEFAULT text-black flex items-center justify-center gap-2 disabled:opacity-50"
+  >
+    <span id="sendBtnLabel">🟢 APPROVE &amp; SEND TEXT</span>
+  </button>
+</div>
+
+<!-- Photo Lightbox -->
+<div id="lightbox" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background:rgba(9,8,10,0.95);" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="" class="max-w-full max-h-full object-contain p-4">
+</div>
+
+<script>
+  const API_BASE = window.location.origin;
+  const params = new URLSearchParams(window.location.search);
+  const leadId = params.get('lead_id');
+  let lead = null;
+  let originalMessage = '';
+
+  async function loadLead() {
+    if (!leadId) { showError(); return; }
+    try {
+      const resp = await fetch(`${API_BASE}/api/lead?id=${leadId}`);
+      if (!resp.ok) throw new Error(resp.status);
+      lead = await resp.json();
+      renderLead(lead);
+    } catch (e) {
+      console.error(e);
+      showError();
+    }
+  }
+
+  function showError() {
+    document.getElementById('loadingState').classList.add('hidden');
+    document.getElementById('errorState').classList.remove('hidden');
+  }
+
+  function renderLead(l) {
+    document.getElementById('loadingState').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+
+    const a = l.computed_analysis_json;
+    const ha = l.hair_assessment;
+
+    // Header
+    document.getElementById('headerName').textContent = l.first_name + ' ' + l.last_name;
+    document.getElementById('statusPill').textContent = formatStatus(l.lead_status);
+    document.getElementById('statusPill').className = 'pill ' + pillClass(l.lead_status);
+
+    // Client card
+    document.getElementById('clientName').textContent = l.client_name;
+    document.getElementById('clientSource').textContent = 'via ' + l.lead_source;
+    document.getElementById('clientIG').textContent = l.instagram ? '@' + l.instagram.replace('@','') : '—';
+    document.getElementById('clientDate').textContent = new Date(l.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    const phoneEl = document.getElementById('clientPhone');
+    phoneEl.href = 'tel:' + l.phone;
+    phoneEl.querySelector('span:last-child').textContent = l.phone;
+    const emailEl = document.getElementById('clientEmail');
+    emailEl.href = 'mailto:' + l.email;
+    emailEl.querySelector('span:last-child').textContent = l.email || '—';
+    document.getElementById('sendingTo').textContent = l.phone;
+
+    // Photos
+    renderPhotos(l.raw_images || []);
+
+    // Assessment chips
+    const chips = [];
+    if (ha.user_reported_density) chips.push({ label: ha.user_reported_density + ' density', c: 'gold-text' });
+    if (ha.dream_length) chips.push({ label: ha.dream_length + '" dream length', c: 'text-cream' });
+    if (ha.prior_extensions && ha.prior_extensions !== 'No') chips.push({ label: 'Prior extensions', c: 'text-muted' });
+    const chipsEl = document.getElementById('assessmentChips');
+    chipsEl.innerHTML = chips.map(c =>
+      `<span class="pill pill-pending ${c.c}" style="color:inherit">${c.label}</span>`
+    ).join('');
+    document.getElementById('assessmentNotes').textContent = ha.client_notes || ha.prior_experience_notes || '—';
+
+    // AI Analysis
+    if (a) {
+      document.getElementById('aiDiagnosis').textContent = a.ai_diagnosis || '—';
+      if (a.disconnected_canopy) {
+        document.getElementById('canopyWarning').classList.remove('hidden');
+        document.getElementById('canopyNotes').textContent = a.canopy_notes || 'Perimeter blunt line detected. Side-fill restoration required.';
+      }
+      document.getElementById('methodName').textContent = methodLabel(a.recommended_method);
+      document.getElementById('hairLength').textContent = a.hair_length_used + '"';
+      document.getElementById('gramsNote').textContent = a.grams_required + 'g placement';
+      document.getElementById('dreamLength').textContent = (ha.dream_length || '—') + '"';
+      document.getElementById('totalPrice').textContent = '$' + a.total_price.toLocaleString();
+      document.getElementById('depositPrice').textContent = '$' + a.deposit_required.toLocaleString();
+      if (a.honor_upgrade) document.getElementById('flagHonor').classList.remove('hidden');
+      if (a.disconnected_canopy) document.getElementById('flagCanopy').classList.remove('hidden');
+      if (a.high_density_side_fill) document.getElementById('flagDensity').classList.remove('hidden');
+
+      originalMessage = a.compiled_message || '';
+      document.getElementById('messageBox').value = originalMessage;
+    }
+  }
+
+  function renderPhotos(images) {
+    const grid = document.getElementById('photosGrid');
+    const labels = ['Top of Head', 'Side View', 'Area of Concern'];
+    if (!images.length) {
+      grid.innerHTML = '<p class="col-span-3 text-xs text-muted text-center py-4">No photos submitted</p>';
+      document.getElementById('photosNote').textContent = '';
+      return;
+    }
+    grid.innerHTML = images.slice(0,3).map((url, i) =>
+      `<div class="relative rounded overflow-hidden border gold-border cursor-pointer" onclick="openLightbox('${url}')">
+        <img src="${url}" alt="Photo ${i+1}" class="photo-thumb w-full rounded" loading="lazy">
+        <div class="absolute bottom-0 left-0 right-0 px-1 py-1 text-center text-white" style="font-size:9px;background:rgba(9,8,10,0.7);letter-spacing:0.1em;">${labels[i]||'Photo '+(i+1)}</div>
+      </div>`
+    ).join('');
+  }
+
+  function openLightbox(url) {
+    document.getElementById('lightboxImg').src = url;
+    document.getElementById('lightbox').classList.remove('hidden');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.add('hidden');
+  }
+
+  function resetMessage() {
+    document.getElementById('messageBox').value = originalMessage;
+  }
+
+  async function sendMessage() {
+    const btn = document.getElementById('sendBtn');
+    const label = document.getElementById('sendBtnLabel');
+    const msg = document.getElementById('messageBox').value.trim();
+    if (!msg || !lead) return;
+
+    btn.disabled = true;
+    label.textContent = '⏳ Sending...';
+
+    try {
+      const resp = await fetch(`${API_BASE}/api/sms-send`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lead_id: lead.id, message: msg }),
+      });
+      const json = await resp.json();
+      if (!resp.ok) throw new Error(json.error);
+
+      label.textContent = '✅ Text Sent!';
+      lead.lead_status = 'sms_sent';
+      document.getElementById('statusPill').textContent = 'SMS Sent';
+      document.getElementById('statusPill').className = 'pill pill-sent';
+
+      setTimeout(() => {
+        btn.disabled = false;
+        label.textContent = '🟢 APPROVE & SEND TEXT';
+      }, 3000);
+    } catch (e) {
+      label.textContent = '❌ Failed — tap to retry';
+      btn.disabled = false;
+    }
+  }
+
+  async function setStatus(status) {
+    if (!lead) return;
+    try {
+      await fetch(`${API_BASE}/api/lead`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: lead.id, status }),
+      });
+      lead.lead_status = status;
+      document.getElementById('statusPill').textContent = formatStatus(status);
+      document.getElementById('statusPill').className = 'pill ' + pillClass(status);
+
+      if (status === 'deposited' && lead.gclid) {
+        await fetch(`${API_BASE}/api/convert`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lead_id: lead.id }),
+        });
+      }
+    } catch(e) { console.error(e); }
+  }
+
+  function formatStatus(s) {
+    return { pending_review:'Pending Review', sms_sent:'SMS Sent', deposited:'Deposited', archived:'Archived' }[s] || s;
+  }
+  function pillClass(s) {
+    return { pending_review:'pill-pending', sms_sent:'pill-sent', deposited:'pill-deposited', archived:'' }[s] || '';
+  }
+  function methodLabel(m) {
+    return { STANDARD_KTIP:'Standard K-Tip', MICRO_KTIP:'Micro K-Tip', NANO_MICRO_HYBRID:'Nano + Micro Hybrid' }[m] || m;
+  }
+
+  loadLead();
+</script>
+</body>
+</html>
