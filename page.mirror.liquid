@@ -1,0 +1,389 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title | default: 'The Studio X Co.' }} — Luxury Hair Extensions, Downey CA</title>
+{{ content_for_header }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<script src="{{ 'gsap.min.js' | asset_url }}" defer></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}" defer></script>
+<script src="{{ 'lenis.min.js' | asset_url }}" defer></script>
+<style>
+:root{--bg:#09080A;--gold:#C49C5C;--gold-light:#DDB870;--gold-pale:#F0E4CE;--gold-dim:#7A5B2E;--text:#D8CCB8;--muted:#554840}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:auto}
+body{background:var(--bg);color:var(--text);font-family:'Lato',sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ── FILM STAGE ── */
+#film-stage{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse 55% 65% at 50% 48%,#1A1008 0%,var(--bg) 65%)}
+
+/* ── MIRROR ── */
+.mirror-outer{position:relative;z-index:2;width:min(68vh,390px);height:min(90vh,540px)}
+@media(max-width:540px){.mirror-outer{width:86vw;height:calc(86vw * 1.38)}}
+.mirror-glass{position:absolute;inset:0;clip-path:ellipse(46.5% 46.5% at 50% 50%);background:#0C0908;overflow:hidden}
+.scene{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center}
+.scene-hair{position:absolute;inset:0;width:100%;height:100%}
+.scene-text{position:absolute;bottom:17%;left:8%;right:8%;text-align:center;font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(0.9rem,1.8vw,1.15rem);color:var(--gold-pale);letter-spacing:0.06em;line-height:1.6;will-change:opacity,transform}
+.mirror-glow{position:absolute;inset:0;background:radial-gradient(ellipse 55% 55% at 50% 42%,rgba(196,156,92,0.14) 0%,transparent 70%);pointer-events:none;opacity:0}
+.s4-wordmark{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);text-align:center;font-family:'Cinzel',serif;font-weight:400;font-size:clamp(1.4rem,3vw,2rem);color:var(--gold);letter-spacing:0.5em}
+.s4-tagline{position:absolute;top:calc(50% + clamp(2rem,4.5vh,3.2rem));left:0;right:0;text-align:center;font-family:'Lato',sans-serif;font-weight:300;font-size:clamp(0.52rem,1vw,0.65rem);color:var(--gold-dim);letter-spacing:0.35em;text-transform:uppercase}
+.s4-cta{position:absolute;bottom:14%;left:0;right:0;text-align:center;font-family:'Cinzel',serif;font-size:clamp(0.58rem,1.1vw,0.72rem);color:var(--gold);letter-spacing:0.38em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+.mirror-frame-overlay{position:absolute;inset:0;pointer-events:none;z-index:3}
+.mirror-frame-overlay svg{width:100%;height:100%;display:block}
+.mirror-label-top{position:absolute;top:3.2%;left:0;right:0;text-align:center;font-family:'Cinzel',serif;font-size:clamp(0.5rem,1vw,0.65rem);color:var(--gold);letter-spacing:0.45em;pointer-events:none;z-index:4}
+.mirror-label-bottom{position:absolute;bottom:2.8%;left:0;right:0;text-align:center;font-family:'Lato',sans-serif;font-weight:300;font-size:clamp(0.42rem,0.8vw,0.54rem);color:var(--gold-dim);letter-spacing:0.22em;text-transform:uppercase;pointer-events:none;z-index:4;opacity:0.55}
+.scroll-hint{position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:0.5rem;transition:opacity 0.5s}
+.scroll-hint.hidden{opacity:0;pointer-events:none}
+.scroll-hint span{font-family:'Lato',sans-serif;font-weight:300;font-size:0.52rem;letter-spacing:0.32em;color:var(--muted);text-transform:uppercase}
+.scroll-hint-line{width:1px;height:32px;background:linear-gradient(to bottom,var(--gold-dim),transparent);animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.25;transform:scaleY(0.75)}50%{opacity:0.7;transform:scaleY(1)}}
+
+/* ── AFTER-FILM ── */
+.reveal{opacity:0;transform:translateY(22px)}
+.section-rule{display:flex;align-items:center;gap:1.4rem;max-width:860px;margin:0 auto;padding:0 2rem}
+.section-rule::before,.section-rule::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold-dim),transparent)}
+.section-rule-ornament{color:var(--gold);font-size:0.55rem;letter-spacing:0.3em}
+.section-eyebrow{text-align:center;font-family:'Lato',sans-serif;font-weight:300;font-size:0.65rem;letter-spacing:0.35em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem}
+.section-heading{text-align:center;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.9rem,3.8vw,2.8rem);color:var(--text);letter-spacing:0.06em}
+#before-after{padding:5.5rem 2rem 4.5rem}
+.ba-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.8rem;max-width:920px;margin:3rem auto 0}
+.ba-card{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;position:relative}
+.ba-card::after{content:'→';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--gold);font-size:0.75rem;z-index:2;background:var(--bg);border:1px solid var(--gold-dim);border-radius:50%;width:1.8rem;height:1.8rem;display:flex;align-items:center;justify-content:center}
+.ba-slot{aspect-ratio:2/3;background:#110F08;border:1px solid #201810;display:flex;align-items:flex-end;padding:0.6rem;position:relative;overflow:hidden}
+.ba-slot::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(0,0,0,0.6) 100%)}
+.ba-slot-label{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.28em;color:var(--gold-dim);text-transform:uppercase;position:relative;z-index:1}
+.ba-slot.after{border-color:var(--gold-dim)}
+.ba-slot.after .ba-slot-label{color:var(--gold)}
+.ba-method{position:absolute;top:0.6rem;right:0.6rem;background:rgba(196,156,92,0.1);border:1px solid rgba(196,156,92,0.25);color:var(--gold);font-family:'Lato',sans-serif;font-size:0.46rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.18rem 0.45rem;z-index:1}
+#services{padding:4.5rem 2rem}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.4rem;max-width:860px;margin:3rem auto 0}
+.service-card{border:1px solid #1C1510;padding:2.2rem 1.8rem;position:relative;transition:border-color 0.4s;cursor:default}
+.service-card::before{content:'';position:absolute;top:0;left:0;width:2rem;height:1.5px;background:var(--gold);transition:width 0.45s cubic-bezier(0.4,0,0.2,1)}
+.service-card:hover{border-color:var(--gold-dim)}
+.service-card:hover::before{width:100%}
+.service-icon{width:32px;height:32px;margin-bottom:1.4rem}
+.service-name{font-family:'Cinzel',serif;font-weight:400;font-size:0.82rem;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;margin-bottom:0.65rem}
+.service-desc{font-family:'Lato',sans-serif;font-weight:300;font-size:0.82rem;color:var(--muted);line-height:1.75}
+.service-link{display:inline-block;margin-top:1.3rem;font-family:'Lato',sans-serif;font-weight:300;font-size:0.6rem;letter-spacing:0.28em;color:var(--gold-dim);text-transform:uppercase;text-decoration:none;transition:color 0.3s}
+.service-link:hover{color:var(--gold)}
+#cta-section{padding:4.5rem 2rem 6.5rem;text-align:center}
+.cta-eyebrow{font-family:'Lato',sans-serif;font-weight:300;font-size:0.62rem;letter-spacing:0.38em;color:var(--muted);text-transform:uppercase;margin-bottom:1.3rem}
+.cta-heading{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.2vw,3.2rem);color:var(--text);letter-spacing:0.04em;line-height:1.25;margin-bottom:0.9rem}
+.cta-heading em{font-style:italic;color:var(--gold)}
+.cta-body{font-family:'Lato',sans-serif;font-weight:300;font-size:0.88rem;color:var(--muted);line-height:1.85;max-width:420px;margin:0 auto 2.2rem}
+.cta-btn{display:inline-block;border:1px solid var(--gold);color:var(--gold);font-family:'Cinzel',serif;font-weight:400;font-size:0.72rem;letter-spacing:0.38em;text-transform:uppercase;text-decoration:none;padding:0.95rem 2.4rem;position:relative;overflow:hidden;transition:color 0.4s}
+.cta-btn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
+.cta-btn:hover{color:var(--bg)}
+.cta-btn:hover::before{transform:scaleX(1)}
+.cta-btn-text{position:relative;z-index:1}
+.cta-location{margin-top:1.8rem;font-family:'Lato',sans-serif;font-weight:300;font-size:0.6rem;letter-spacing:0.24em;color:var(--muted);text-transform:uppercase}
+footer{border-top:1px solid #1A1510;padding:2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.footer-brand{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.3em;color:var(--gold-dim);text-transform:uppercase}
+.footer-links{display:flex;gap:1.8rem}
+.footer-links a{font-family:'Lato',sans-serif;font-weight:300;font-size:0.58rem;letter-spacing:0.2em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.3s}
+.footer-links a:hover{color:var(--gold)}
+.footer-social{display:flex;gap:1rem;align-items:center}
+.social-link{color:var(--muted);transition:color 0.3s;display:flex;align-items:center}
+.social-link:hover{color:var(--gold)}
+@media(max-width:600px){footer{flex-direction:column;align-items:flex-start}.footer-links{flex-wrap:wrap;gap:1rem}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.scroll-hint{display:none}@keyframes pulse{from{}to{}}}
+</style>
+</head>
+<body>
+
+<!-- ── FILM STAGE ───────────────────────────────────── -->
+<section id="film-stage">
+  <div class="mirror-outer" id="mirror">
+    <div class="mirror-glass" id="mirror-glass">
+      <div class="mirror-glow" id="mirror-glow"></div>
+      <div class="scene" id="s1">
+        <svg class="scene-hair" id="h1" viewBox="0 0 400 540" fill="none" preserveAspectRatio="xMidYMid slice"></svg>
+        <div class="scene-text" id="s1-text" style="opacity:0;transform:translateY(12px)">She stopped wearing<br>her hair down.</div>
+      </div>
+      <div class="scene" id="s2" style="opacity:0">
+        <svg class="scene-hair" id="h2" viewBox="0 0 400 540" fill="none" preserveAspectRatio="xMidYMid slice"></svg>
+        <div class="scene-text" id="s2-text" style="opacity:0;transform:translateY(12px)">Until she made<br>one appointment.</div>
+      </div>
+      <div class="scene" id="s3" style="opacity:0">
+        <svg class="scene-hair" id="h3" viewBox="0 0 400 540" fill="none" preserveAspectRatio="xMidYMid slice"></svg>
+      </div>
+      <div class="scene" id="s4" style="opacity:0">
+        <svg class="scene-hair" id="h4" viewBox="0 0 400 540" fill="none" preserveAspectRatio="xMidYMid slice"></svg>
+        <div class="s4-wordmark" id="s4-word" style="opacity:0">STUDIO X</div>
+        <div class="s4-tagline"  id="s4-tag"  style="opacity:0">The Studio X Co. &middot; Downey, California</div>
+        <a href="{{ routes.root_url }}pages/hair-assessment" class="s4-cta" id="s4-cta" style="opacity:0">Start Your Assessment →</a>
+      </div>
+    </div>
+    <div class="mirror-frame-overlay">
+      <svg viewBox="0 0 390 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="195" cy="270" rx="188" ry="258" stroke="#C49C5C" stroke-width="1.3"/>
+        <ellipse cx="195" cy="270" rx="180" ry="250" stroke="#C49C5C" stroke-width="0.4" opacity="0.35"/>
+        <line x1="158" y1="12"  x2="232" y2="12"  stroke="#C49C5C" stroke-width="0.4" opacity="0.5"/>
+        <circle cx="195" cy="8"  r="2.2" fill="none" stroke="#C49C5C" stroke-width="0.8" opacity="0.65"/>
+        <line x1="158" y1="532" x2="232" y2="532" stroke="#C49C5C" stroke-width="0.4" opacity="0.4"/>
+        <circle cx="195" cy="536" r="1.8" fill="none" stroke="#C49C5C" stroke-width="0.6" opacity="0.4"/>
+      </svg>
+      <div class="mirror-label-top">Studio X</div>
+      <div class="mirror-label-bottom">Downey, California &middot; Est. 2020</div>
+    </div>
+  </div>
+  <div class="scroll-hint" id="scroll-hint">
+    <div class="scroll-hint-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ── AFTER FILM ────────────────────────────────────── -->
+<section id="before-after">
+  <div class="reveal">
+    <p class="section-eyebrow">The Transformation</p>
+    <h2 class="section-heading">Fine Hair, Reimagined</h2>
+  </div>
+  <div class="section-rule reveal" style="margin-top:2.2rem"><span class="section-rule-ornament">✦</span></div>
+  <div class="ba-grid reveal">
+    <div class="ba-card">
+      <div class="ba-slot"><span class="ba-slot-label">Before</span></div>
+      <div class="ba-slot after"><span class="ba-method">K-Tip</span><span class="ba-slot-label">After</span></div>
+    </div>
+    <div class="ba-card">
+      <div class="ba-slot"><span class="ba-slot-label">Before</span></div>
+      <div class="ba-slot after"><span class="ba-method">Tape-In</span><span class="ba-slot-label">After</span></div>
+    </div>
+    <div class="ba-card">
+      <div class="ba-slot"><span class="ba-slot-label">Before</span></div>
+      <div class="ba-slot after"><span class="ba-method">Topper</span><span class="ba-slot-label">After</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-rule reveal" style="max-width:860px;margin:0 auto;padding:0 2rem"><span class="section-rule-ornament">✦</span></div>
+
+<section id="services">
+  <div class="reveal">
+    <p class="section-eyebrow">Our Methods</p>
+    <h2 class="section-heading">Precision for Every Profile</h2>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 32 32" fill="none">
+        <path d="M16 3 C13 9 13 16 13 22 C13 25 14.5 27 16 29" stroke="#C49C5C" stroke-width="0.9" opacity="0.75"/>
+        <path d="M16 3 C19 9 19 16 19 22 C19 25 17.5 27 16 29" stroke="#C49C5C" stroke-width="0.9" opacity="0.75"/>
+        <circle cx="16" cy="29" r="3.5" fill="none" stroke="#C49C5C" stroke-width="0.9" opacity="0.5"/>
+      </svg>
+      <div class="service-name">K-Tip Keratin Bond</div>
+      <p class="service-desc">Individual bonds fused strand by strand. The most natural movement — indistinguishable from your own hair. Ideal for fine hair seeking lasting fullness.</p>
+      <a href="{{ routes.root_url }}pages/hair-extensions" class="service-link">Learn more →</a>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 32 32" fill="none">
+        <rect x="4" y="9"  width="24" height="5" rx="0.5" stroke="#C49C5C" stroke-width="0.9" opacity="0.5"/>
+        <rect x="4" y="18" width="24" height="5" rx="0.5" stroke="#C49C5C" stroke-width="0.9" opacity="0.5"/>
+        <line x1="4" y1="14" x2="28" y2="14" stroke="#C49C5C" stroke-width="0.4" stroke-dasharray="3 2" opacity="0.35"/>
+        <line x1="16" y1="3"  x2="16" y2="9"  stroke="#C49C5C" stroke-width="0.7" opacity="0.35"/>
+        <line x1="16" y1="23" x2="16" y2="29" stroke="#C49C5C" stroke-width="0.7" opacity="0.35"/>
+      </svg>
+      <div class="service-name">Tape-In Extensions</div>
+      <p class="service-desc">Thin adhesive wefts that lie flat and seamlessly. Fast application, effortless removal, and a finish that photographs beautifully every time.</p>
+      <a href="{{ routes.root_url }}pages/hair-extensions" class="service-link">Learn more →</a>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 32 32" fill="none">
+        <path d="M6 23 C6 15 9 9 16 7 C23 9 26 15 26 23" stroke="#C49C5C" stroke-width="0.9" opacity="0.6"/>
+        <path d="M10 23 C10 17 12 12 16 11 C20 12 22 17 22 23" stroke="#C49C5C" stroke-width="0.5" opacity="0.38"/>
+        <line x1="6" y1="23" x2="26" y2="23" stroke="#C49C5C" stroke-width="0.9" opacity="0.5"/>
+        <line x1="8" y1="26" x2="24" y2="26" stroke="#C49C5C" stroke-width="0.5" opacity="0.3"/>
+      </svg>
+      <div class="service-name">Hair Toppers</div>
+      <p class="service-desc">Targeted coverage for the crown and parting area. Worn and removed daily, with zero commitment. The gentlest solution for fine or thinning hair.</p>
+      <a href="{{ routes.root_url }}pages/fine-thinning-hair-extensions" class="service-link">Learn more →</a>
+    </div>
+  </div>
+</section>
+
+<div class="section-rule reveal" style="max-width:860px;margin:0 auto;padding:0 2rem"><span class="section-rule-ornament">✦</span></div>
+
+<section id="cta-section">
+  <div class="reveal">
+    <p class="cta-eyebrow">Your Consultation Awaits</p>
+    <h2 class="cta-heading">Ready to see yourself<br><em>differently?</em></h2>
+    <p class="cta-body">Your hair is unique — and so is the solution. Our virtual assessment takes five minutes and gives us everything we need to recommend the right method for your hair exactly as it is now.</p>
+    <a href="{{ routes.root_url }}pages/hair-assessment" class="cta-btn"><span class="cta-btn-text">Start Your Assessment</span></a>
+    <p class="cta-location">Studio X Co. &middot; Downey, CA &middot; By appointment only</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">The Studio X Co.</div>
+  <div class="footer-links">
+    <a href="{{ routes.root_url }}pages/hair-extensions">Extensions</a>
+    <a href="{{ routes.root_url }}pages/hair-assessment">Assessment</a>
+    <a href="{{ routes.root_url }}pages/hair-extension-investment">Investment</a>
+    <a href="{{ routes.root_url }}pages/fine-thinning-hair-extensions">Fine &amp; Thinning</a>
+  </div>
+  <div class="footer-social">
+    <a href="https://instagram.com/thestudioxco" class="social-link" aria-label="Instagram">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a href="https://tiktok.com/@thestudioxco" class="social-link" aria-label="TikTok">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+      </svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+function init(){
+  if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined'||typeof Lenis==='undefined'){
+    setTimeout(init,50); return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+
+  let seed=0;
+  function rng(s){seed=s;}
+  function rand(){seed=(seed*1664525+1013904223)&0xffffffff;return(seed>>>0)/0xffffffff;}
+  function hairPath(x0,spread){
+    const y0=-18,y3=558;
+    const cp1x=x0+(rand()-0.5)*spread,cp1y=y0+(y3-y0)*(.22+rand()*.12);
+    const cp2x=x0+(rand()-0.5)*spread*1.3,cp2y=y0+(y3-y0)*(.58+rand()*.18);
+    const x3=x0+(rand()-0.5)*spread*.5;
+    return 'M'+x0.toFixed(1)+' '+y0+' C'+cp1x.toFixed(1)+' '+cp1y.toFixed(1)+','+cp2x.toFixed(1)+' '+cp2y.toFixed(1)+','+x3.toFixed(1)+' '+y3;
+  }
+  const NS='http://www.w3.org/2000/svg';
+
+  function buildSparse(svgEl,seedN){
+    rng(seedN);
+    [58,80,105,132,160,185,210,238,264,292,318,342].forEach(x=>{
+      const p=document.createElementNS(NS,'path');
+      p.setAttribute('d',hairPath(x,28));
+      p.setAttribute('stroke',rand()>.55?'#8C7055':'#6B5240');
+      p.setAttribute('stroke-width',(0.65+rand()*.5).toFixed(2));
+      p.setAttribute('fill','none');
+      p.setAttribute('opacity',(0.35+rand()*.3).toFixed(2));
+      svgEl.appendChild(p);
+    });
+  }
+  function buildS2(svgEl){
+    buildSparse(svgEl,42);
+    rng(77);
+    [186,210].forEach(x=>{
+      const p=document.createElementNS(NS,'path');
+      p.setAttribute('d',hairPath(x,18));
+      p.setAttribute('stroke','#C49C5C');
+      p.setAttribute('stroke-width','1.3');
+      p.setAttribute('fill','none');
+      p.setAttribute('opacity','0.88');
+      svgEl.appendChild(p);
+    });
+  }
+  function buildExt(svgEl,animated){
+    rng(99);
+    const count=68,strands=[];
+    for(let i=0;i<count;i++){
+      const x=48+rand()*304;
+      const p=document.createElementNS(NS,'path');
+      p.setAttribute('d',hairPath(x,52));
+      const hue=rand();
+      p.setAttribute('stroke',hue<.33?'#C49C5C':hue<.66?'#B8914F':'#D4A86A');
+      p.setAttribute('stroke-width',(0.75+rand()*.7).toFixed(2));
+      p.setAttribute('fill','none');
+      p.setAttribute('opacity',(0.5+rand()*.5).toFixed(2));
+      if(animated){
+        const len=(580+rand()*80).toFixed(1);
+        p.setAttribute('stroke-dasharray',len);
+        p.setAttribute('stroke-dashoffset',len);
+        p.dataset.len=len;
+      }
+      svgEl.appendChild(p);
+      strands.push(p);
+    }
+    return strands;
+  }
+
+  buildSparse(document.getElementById('h1'),42);
+  buildS2(document.getElementById('h2'));
+  const extStrands=buildExt(document.getElementById('h3'),true);
+  buildExt(document.getElementById('h4'),false);
+
+  const noMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(noMotion){
+    ['s1','s2','s3'].forEach(id=>{document.getElementById(id).style.opacity='0';});
+    document.getElementById('s4').style.opacity='1';
+    document.getElementById('s4-word').style.opacity='1';
+    document.getElementById('s4-tag').style.opacity='1';
+    document.getElementById('s4-cta').style.opacity='1';
+    extStrands.forEach(p=>{p.style.strokeDashoffset='0';});
+    document.querySelectorAll('.reveal').forEach(el=>{el.style.opacity='1';el.style.transform='none';});
+    document.getElementById('scroll-hint').classList.add('hidden');
+    window.__ready=true;
+    return;
+  }
+
+  const lenis=new Lenis({lerp:.1,smoothWheel:true});
+  lenis.on('scroll',ScrollTrigger.update);
+  gsap.ticker.add(t=>{lenis.raf(t*1000);});
+  gsap.ticker.lagSmoothing(0);
+
+  function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+  function clamp01(x){return Math.max(0,Math.min(1,x));}
+  function rangeFade(p,a,b){return clamp01((p-a)/(b-a));}
+
+  function updateFilm(p){
+    const s1=document.getElementById('s1'),s2=document.getElementById('s2'),s3=document.getElementById('s3'),s4=document.getElementById('s4');
+    const s1t=document.getElementById('s1-text'),s2t=document.getElementById('s2-text');
+    const glow=document.getElementById('mirror-glow'),hint=document.getElementById('scroll-hint');
+    if(p>.015)hint.classList.add('hidden');
+    s1.style.opacity=p<.28?1:ease(1-rangeFade(p,.28,.37));
+    const s1tO=p<.07?ease(rangeFade(p,0,.07)):p<.26?1:ease(1-rangeFade(p,.26,.33));
+    s1t.style.opacity=s1tO;
+    s1t.style.transform='translateY('+Math.max(0,12-ease(rangeFade(p,0,.07))*12).toFixed(1)+'px)';
+    s2.style.opacity=p<.28?0:p<.37?ease(rangeFade(p,.28,.37)):p<.52?1:ease(1-rangeFade(p,.52,.60));
+    const s2tO=p<.36?0:p<.44?ease(rangeFade(p,.36,.44)):p<.50?1:ease(1-rangeFade(p,.50,.57));
+    s2t.style.opacity=s2tO;
+    s2t.style.transform='translateY('+Math.max(0,12-ease(rangeFade(p,.36,.44))*12).toFixed(1)+'px)';
+    s3.style.opacity=p<.52?0:p<.60?ease(rangeFade(p,.52,.60)):p<.86?1:ease(1-rangeFade(p,.86,.93));
+    const gP=p<.52?0:p<.72?rangeFade(p,.52,.72):p<.86?1-rangeFade(p,.72,.86):0;
+    glow.style.opacity=(gP*.75).toFixed(3);
+    if(p>=.56){
+      const sp=clamp01((p-.56)/.34);
+      extStrands.forEach((strand,i)=>{
+        const ss=(i/extStrands.length)*.65,se=ss+.35;
+        const loc=ease(clamp01((sp-ss)/(se-ss)));
+        strand.style.strokeDashoffset=(parseFloat(strand.dataset.len)*(1-loc)).toFixed(1);
+      });
+    }
+    s4.style.opacity=p<.86?0:ease(rangeFade(p,.86,.94));
+    if(p>=.90){
+      const q=ease(clamp01((p-.90)/.10));
+      const wordEl=document.getElementById('s4-word');
+      wordEl.style.opacity=q;
+      wordEl.style.letterSpacing=(.5+q*.14)+'em';
+      document.getElementById('s4-tag').style.opacity=q>.45?(q-.45)/.55:0;
+      document.getElementById('s4-cta').style.opacity=q>.65?(q-.65)/.35:0;
+    }
+  }
+
+  ScrollTrigger.create({trigger:'#film-stage',pin:true,start:'top top',end:'+=500%',scrub:1.0,onUpdate(self){updateFilm(self.progress);}});
+
+  gsap.utils.toArray('.reveal').forEach(el=>{
+    gsap.to(el,{opacity:1,y:0,duration:.8,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}});
+  });
+
+  ScrollTrigger.refresh();
+  setTimeout(()=>{window.__ready=true;},500);
+}
+init();
+})();
+</script>
+</body>
+</html>
