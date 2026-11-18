@@ -1,0 +1,21 @@
+{
+  "name": "studio-x-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.0",
+    "@vercel/node": "^3.0.0",
+    "openai": "^4.47.0",
+    "twilio": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0",
+    "vercel": "^34.0.0"
+  }
+}

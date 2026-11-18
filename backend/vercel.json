@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/dashboard", "destination": "/dashboard/index.html" }
+  ],
+  "routes": [
+    { "src": "/api/intake",   "dest": "/api/intake.ts" },
+    { "src": "/api/sms-send", "dest": "/api/sms-send.ts" },
+    { "src": "/api/convert",  "dest": "/api/convert.ts" },
+    { "src": "/api/lead",     "dest": "/api/lead.ts" }
+  ]
+}

@@ -1,0 +1,1354 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lato:wght@300;400;500;700&display=swap');
+
+.sxa {
+  --gold: #C49C5C;
+  --gold-light: #E8C98A;
+  --gold-dim: rgba(196,156,92,0.13);
+  --gold-border: rgba(196,156,92,0.22);
+  --gold-active: rgba(196,156,92,0.55);
+  --bg: #09080A;
+  --surface: #100F14;
+  --card: #17151D;
+  --card-hover: #1E1B26;
+  --cream: #F0EBE0;
+  --muted: #7A7485;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Lato', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--sans);
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+.sxa *, .sxa *::before, .sxa *::after { box-sizing: border-box; }
+
+/* ── HEADER ── */
+.sxa__header {
+  text-align: center;
+  padding: 52px 24px 20px;
+  border-bottom: 1px solid var(--gold-border);
+}
+.sxa__logo {
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.sxa__tagline {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── PROGRESS ── */
+.sxa__progress {
+  padding: 28px 40px 0;
+  max-width: 640px;
+  margin: 0 auto;
+  display: none;
+}
+.sxa__progress.is-visible { display: block; }
+.sxa__progress-track {
+  height: 1px;
+  background: var(--gold-border);
+  border-radius: 1px;
+  position: relative;
+  margin-bottom: 12px;
+}
+.sxa__progress-fill {
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 1px;
+  transition: width 0.5s ease;
+}
+.sxa__progress-dots {
+  display: flex;
+  justify-content: space-between;
+}
+.sxa__progress-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold-border);
+  border: 1px solid var(--gold-border);
+  transition: all 0.3s;
+}
+.sxa__progress-dot.is-done { background: var(--gold); border-color: var(--gold); }
+.sxa__progress-dot.is-active {
+  background: transparent;
+  border-color: var(--gold-light);
+  box-shadow: 0 0 6px var(--gold);
+}
+.sxa__progress-label {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 14px;
+}
+
+/* ── STEPS ── */
+.sxa__step { display: none; animation: sxaFadeIn 0.45s ease; }
+.sxa__step.is-active { display: block; }
+@keyframes sxaFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sxa__inner {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+/* ── TYPOGRAPHY ── */
+.sxa__eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.sxa__h1 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin: 0 0 20px;
+  color: var(--cream);
+}
+.sxa__h1 em { font-style: italic; color: var(--gold-light); }
+.sxa__h2 {
+  font-family: var(--serif);
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 14px;
+  color: var(--cream);
+}
+.sxa__h2 em { font-style: italic; color: var(--gold-light); }
+.sxa__lead {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #BDB5A8;
+  margin-bottom: 40px;
+  max-width: 580px;
+}
+.sxa__lead strong { color: var(--cream); font-weight: 500; }
+.sxa__divider {
+  width: 48px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 28px auto;
+}
+
+/* ── WELCOME ── */
+.sxa__welcome {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 24px;
+}
+.sxa__welcome .sxa__h1 { font-size: clamp(36px, 6vw, 64px); }
+.sxa__welcome .sxa__lead { margin: 0 auto 44px; text-align: center; }
+.sxa__badge {
+  display: inline-block;
+  border: 1px solid var(--gold-border);
+  padding: 7px 20px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 36px;
+}
+
+/* ── BUTTONS ── */
+.sxa__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 40px;
+  background: linear-gradient(135deg, #C49C5C, #B08640);
+  color: #0A0806;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-decoration: none;
+}
+.sxa__btn:hover { background: linear-gradient(135deg, #D4AE6C, #C49C5C); transform: translateY(-1px); }
+.sxa__btn--ghost {
+  background: transparent;
+  border: 1px solid var(--gold-border);
+  color: var(--muted);
+  padding: 14px 32px;
+}
+.sxa__btn--ghost:hover { border-color: var(--gold); color: var(--gold); transform: none; }
+.sxa__btn-arrow { font-size: 18px; }
+
+.sxa__nav {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+/* ── SERVICE CARDS ── */
+.sxa__services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 32px 0;
+}
+.sxa__service-card {
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  padding: 28px 24px;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+}
+.sxa__service-card:hover {
+  border-color: var(--gold);
+  background: var(--card-hover);
+}
+.sxa__service-card.is-selected {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+}
+.sxa__service-card.is-selected::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.sxa__service-check {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 20px; height: 20px;
+  border: 1px solid var(--gold-border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  color: transparent;
+  transition: all 0.2s;
+}
+.sxa__service-card.is-selected .sxa__service-check {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #0A0806;
+}
+.sxa__service-tag {
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.sxa__service-name {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: var(--cream);
+}
+.sxa__service-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #9A9090;
+}
+.sxa__service-card.is-selected .sxa__service-desc { color: #BDB5A8; }
+.sxa__service-ideal {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--gold-border);
+  font-size: 12px;
+  color: var(--gold);
+  font-style: italic;
+}
+
+.sxa__skip-note {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* ── CHOICE GRIDS ── */
+.sxa__question { margin-bottom: 36px; }
+.sxa__qlabel {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 16px;
+  color: var(--cream);
+}
+.sxa__qlabel em { font-style: italic; color: var(--gold-light); }
+.sxa__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.sxa__choice {
+  padding: 11px 20px;
+  border: 1px solid var(--gold-border);
+  background: var(--card);
+  font-size: 13px;
+  color: #BDB5A8;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  letter-spacing: 0.02em;
+}
+.sxa__choice:hover { border-color: var(--gold); color: var(--cream); }
+.sxa__choice.is-selected {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  color: var(--cream);
+}
+.sxa__choices--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+.sxa__choices--grid .sxa__choice {
+  text-align: center;
+  padding: 16px 12px;
+}
+.sxa__choice-icon {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 7px;
+}
+.sxa__choice-label { display: block; font-size: 13px; }
+.sxa__choice-sub { display: block; font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+.sxa__textarea {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 16px 18px;
+  resize: vertical;
+  min-height: 120px;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.sxa__textarea::placeholder { color: var(--muted); }
+.sxa__textarea:focus { border-color: var(--gold); }
+
+/* ── PRICING ── */
+.sxa__pricing-intro {
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  border-left: 3px solid var(--gold);
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #BDB5A8;
+}
+.sxa__tiers {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.sxa__tier {
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  padding: 28px 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.sxa__tier--featured { border-color: var(--gold); }
+.sxa__tier--featured::after {
+  content: 'Most Popular';
+  position: absolute;
+  top: 18px; right: 0;
+  background: var(--gold);
+  color: #0A0806;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+}
+.sxa__tier-name {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--cream);
+}
+.sxa__tier-price {
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.sxa__tier-price strong { font-size: 28px; font-weight: 300; font-family: var(--serif); }
+.sxa__tier-desc {
+  font-size: 13px;
+  color: #9A9090;
+  line-height: 1.6;
+}
+.sxa__tier-items {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--gold-border);
+  list-style: none;
+  padding-left: 0;
+}
+.sxa__tier-items li {
+  font-size: 12px;
+  color: #9A9090;
+  padding: 3px 0 3px 18px;
+  position: relative;
+}
+.sxa__tier-items li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 11px;
+}
+.sxa__pricing-note {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* ── CONTACT FIELDS ── */
+.sxa__fields { display: grid; gap: 16px; }
+.sxa__fields--2col { grid-template-columns: 1fr 1fr; }
+@media (max-width: 540px) { .sxa__fields--2col { grid-template-columns: 1fr; } }
+.sxa__field { display: flex; flex-direction: column; gap: 8px; }
+.sxa__field-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.sxa__field-label span { color: var(--muted); font-size: 9px; margin-left: 4px; }
+.sxa__input, .sxa__select {
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 14px;
+  padding: 13px 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.sxa__input::placeholder { color: var(--muted); }
+.sxa__input:focus, .sxa__select:focus { border-color: var(--gold); }
+.sxa__input--prefix { padding-left: 30px; }
+.sxa__field-wrap { position: relative; }
+.sxa__field-prefix {
+  position: absolute;
+  left: 14px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  font-size: 15px;
+  pointer-events: none;
+}
+.sxa__select-wrap { position: relative; }
+.sxa__select-wrap::after {
+  content: '▾';
+  position: absolute;
+  right: 14px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  pointer-events: none;
+  font-size: 12px;
+}
+.sxa__select option { background: #1C1820; }
+
+/* ── PHOTO UPLOAD ── */
+.sxa__upload-section { margin-top: 32px; }
+.sxa__upload-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  display: block;
+}
+.sxa__upload-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.sxa__upload-zone {
+  border: 1px dashed var(--gold-border);
+  background: var(--card);
+  padding: 36px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+}
+.sxa__upload-zone:hover, .sxa__upload-zone.is-drag { border-color: var(--gold); background: var(--gold-dim); }
+.sxa__upload-zone input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.sxa__upload-icon { font-size: 32px; margin-bottom: 10px; opacity: 0.5; }
+.sxa__upload-text { font-size: 13px; color: #9A9090; line-height: 1.5; }
+.sxa__upload-text strong { color: var(--gold); font-weight: 400; }
+.sxa__upload-previews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+.sxa__upload-preview {
+  aspect-ratio: 1;
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  overflow: hidden;
+  position: relative;
+}
+.sxa__upload-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sxa__upload-preview-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(9,8,10,0.8);
+  font-size: 10px;
+  color: var(--gold);
+  padding: 5px 8px;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+.sxa__upload-remove {
+  position: absolute; top: 5px; right: 5px;
+  width: 20px; height: 20px;
+  background: rgba(9,8,10,0.85);
+  border: none;
+  color: var(--cream);
+  cursor: pointer;
+  font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── CONFIRMATION ── */
+.sxa__confirm {
+  text-align: center;
+  padding: 80px 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.sxa__confirm-icon { font-size: 48px; margin-bottom: 28px; opacity: 0.8; }
+.sxa__confirm-hr {
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 28px auto;
+}
+.sxa__confirm-body {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #BDB5A8;
+  margin-bottom: 32px;
+}
+.sxa__confirm-body strong { color: var(--cream); font-weight: 500; }
+.sxa__confirm-social {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+.sxa__confirm-social a {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold-border);
+  padding-bottom: 2px;
+  transition: color 0.2s;
+}
+.sxa__confirm-social a:hover { color: var(--gold-light); }
+
+/* ── VALIDATION ── */
+.sxa__error {
+  color: #C07070;
+  font-size: 12px;
+  margin-top: 6px;
+  display: none;
+}
+.sxa__error.is-visible { display: block; }
+.sxa__input.is-invalid, .sxa__select.is-invalid { border-color: #C07070; }
+
+@media (max-width: 600px) {
+  .sxa__inner { padding: 36px 18px 60px; }
+  .sxa__progress { padding: 20px 24px 0; }
+  .sxa__services { grid-template-columns: 1fr; }
+}
+</style>
+
+{%- form 'contact', id: 'SxaAssessmentForm' -%}
+
+{%- if form.posted_successfully? -%}
+<div class="sxa">
+  <div class="sxa__header">
+    <div class="sxa__logo">The Studio X Co.</div>
+    <div class="sxa__tagline">Luxury Hair Extensions · Downey, CA</div>
+  </div>
+  <div class="sxa__confirm">
+    <div class="sxa__confirm-icon">✦</div>
+    <div class="sxa__eyebrow">Assessment Received</div>
+    <h1 class="sxa__h1">You're One Step Closer to <em>Your Best Hair</em></h1>
+    <div class="sxa__confirm-hr"></div>
+    <p class="sxa__confirm-body">
+      Thank you for trusting The Studio X Co. with your hair journey.<br><br>
+      <strong>Giselle will personally review your assessment</strong> and reach out to you within <strong>24–48 hours</strong> to discuss your goals and recommend the perfect method for your hair.<br><br>
+      In the meantime, feel free to browse our work and send your hair photos directly via Instagram DM.
+    </p>
+    <div class="sxa__confirm-social">
+      <a href="https://www.instagram.com/thestudioxco" target="_blank">@thestudioxco</a>
+    </div>
+  </div>
+</div>
+
+{%- else -%}
+
+<div class="sxa" id="sxaRoot">
+  <div class="sxa__header">
+    <div class="sxa__logo">The Studio X Co.</div>
+    <div class="sxa__tagline">Luxury Hair Extensions · Downey, CA</div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="sxa__progress" id="sxaProgress">
+    <div class="sxa__progress-track">
+      <div class="sxa__progress-fill" id="sxaFill" style="width:0%"></div>
+    </div>
+    <div class="sxa__progress-dots" id="sxaDots">
+      <div class="sxa__progress-dot" data-dot="1"></div>
+      <div class="sxa__progress-dot" data-dot="2"></div>
+      <div class="sxa__progress-dot" data-dot="3"></div>
+      <div class="sxa__progress-dot" data-dot="4"></div>
+      <div class="sxa__progress-dot" data-dot="5"></div>
+    </div>
+    <div class="sxa__progress-label" id="sxaStepLabel">Step 1 of 5</div>
+  </div>
+
+  <!-- ── STEP 0: WELCOME ── -->
+  <div class="sxa__step is-active" data-step="0">
+    <div class="sxa__welcome">
+      <div class="sxa__badge">Virtual Hair Assessment</div>
+      <div class="sxa__eyebrow">The Studio X Co.</div>
+      <h1 class="sxa__h1">Your Most Beautiful<br><em>Hair Starts Here</em></h1>
+      <div class="sxa__divider"></div>
+      <p class="sxa__lead">
+        You deserve hair that moves with confidence — full, natural, and entirely yours. This guided assessment takes just a few minutes and helps Giselle create a personalized recommendation tailored to <strong>your hair, your lifestyle, and your goals.</strong>
+      </p>
+      <button type="button" class="sxa__btn" onclick="sxaGoTo(1)">
+        Begin Your Assessment <span class="sxa__btn-arrow">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── STEP 1: DISCOVER YOUR METHOD ── -->
+  <div class="sxa__step" data-step="1">
+    <div class="sxa__inner">
+      <div class="sxa__eyebrow">Step 1 · Your Method</div>
+      <h2 class="sxa__h2">Discover What's <em>Possible</em></h2>
+      <p class="sxa__lead">Each of our methods is designed with a specific hair type and goal in mind. Read through and select the ones that spark your interest — it's okay to choose more than one, or simply say "not sure yet."</p>
+
+      <div class="sxa__services" id="sxaServices">
+        <div class="sxa__service-card" data-service="ktip" onclick="sxaToggleService(this)">
+          <div class="sxa__service-check">✓</div>
+          <div class="sxa__service-tag">Individual Bond Method</div>
+          <div class="sxa__service-name">K-Tip Extensions</div>
+          <div class="sxa__service-desc">Individual strands fused one-by-one using a keratin protein bond — the gold standard for natural movement and undetectable blending. Bonds lay perfectly flush for ponytails and updos.</div>
+          <div class="sxa__service-ideal">Ideal for: adding length and volume, active lifestyles</div>
+        </div>
+        <div class="sxa__service-card" data-service="microktip" onclick="sxaToggleService(this)">
+          <div class="sxa__service-check">✓</div>
+          <div class="sxa__service-tag">Fine Hair Specialist</div>
+          <div class="sxa__service-name">Micro K-Tip Extensions</div>
+          <div class="sxa__service-desc">The same precision bond method — scaled down for finer, more delicate strands. The featherweight micro-bond distributes weight evenly, so your hair moves freely and feels completely natural.</div>
+          <div class="sxa__service-ideal">Ideal for: fine or fragile hair, lightweight feel</div>
+        </div>
+        <div class="sxa__service-card" data-service="mesh" onclick="sxaToggleService(this)">
+          <div class="sxa__service-check">✓</div>
+          <div class="sxa__service-tag">Thinning Specialist</div>
+          <div class="sxa__service-name">Mesh Integration</div>
+          <div class="sxa__service-desc">A revolutionary solution for significant thinning. A custom-fitted breathable mesh base is blended seamlessly with your existing hair — no direct attachment to fragile strands, no stress on the scalp.</div>
+          <div class="sxa__service-ideal">Ideal for: significant thinning, sensitive scalp, alopecia</div>
+        </div>
+        <div class="sxa__service-card" data-service="topper" onclick="sxaToggleService(this)">
+          <div class="sxa__service-check">✓</div>
+          <div class="sxa__service-tag">Crown & Parting Solution</div>
+          <div class="sxa__service-name">Beaded Topper</div>
+          <div class="sxa__service-desc">Targeted coverage for crown thinning and part-line concerns. A custom hairpiece is secured with micro beads for a completely natural finish — indistinguishable from your own hair.</div>
+          <div class="sxa__service-ideal">Ideal for: crown thinning, part-line widening, postpartum</div>
+        </div>
+      </div>
+
+      <p class="sxa__skip-note">Not sure? That's perfectly fine — Giselle will guide you during your consultation.</p>
+
+      <div class="sxa__nav">
+        <button type="button" class="sxa__btn" onclick="sxaNext(1)">Continue <span class="sxa__btn-arrow">→</span></button>
+        <button type="button" class="sxa__btn sxa__btn--ghost" onclick="sxaGoTo(0)">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: HAIR ASSESSMENT PART 1 ── -->
+  <div class="sxa__step" data-step="2">
+    <div class="sxa__inner">
+      <div class="sxa__eyebrow">Step 2 · Your Hair</div>
+      <h2 class="sxa__h2">Tell Us About <em>Your Hair Today</em></h2>
+      <p class="sxa__lead">There are no wrong answers here. This helps Giselle understand where you're starting from so she can meet you exactly where you are.</p>
+
+      <div class="sxa__question">
+        <div class="sxa__qlabel">How would you describe your current hair density?</div>
+        <div class="sxa__choices" data-field="density" data-required="true">
+          <div class="sxa__choice" data-val="Very Fine">Very Fine</div>
+          <div class="sxa__choice" data-val="Fine">Fine</div>
+          <div class="sxa__choice" data-val="Medium">Medium</div>
+          <div class="sxa__choice" data-val="Thick">Thick</div>
+          <div class="sxa__choice" data-val="Used to be thicker">It's changed — used to be thicker</div>
+        </div>
+        <div class="sxa__error" id="err-density">Please select an option to continue.</div>
+      </div>
+
+      <div class="sxa__question">
+        <div class="sxa__qlabel">What is your current hair length?</div>
+        <div class="sxa__choices" data-field="length">
+          <div class="sxa__choice" data-val="Above shoulders">Above shoulders</div>
+          <div class="sxa__choice" data-val="Shoulder length">Shoulder length</div>
+          <div class="sxa__choice" data-val="Below shoulders">Below shoulders</div>
+          <div class="sxa__choice" data-val="Long (mid-back+)">Long (mid-back or longer)</div>
+        </div>
+      </div>
+
+      <div class="sxa__question">
+        <div class="sxa__qlabel">Where are you experiencing thinning or concern? <em>(Select all that apply)</em></div>
+        <div class="sxa__choices sxa__choices--grid" data-field="areas" data-multi="true">
+          <div class="sxa__choice" data-val="Crown/Top">
+            <span class="sxa__choice-icon">○</span>
+            <span class="sxa__choice-label">Crown / Top</span>
+          </div>
+          <div class="sxa__choice" data-val="Part Line">
+            <span class="sxa__choice-icon">⟋</span>
+            <span class="sxa__choice-label">Part Line</span>
+          </div>
+          <div class="sxa__choice" data-val="Temples">
+            <span class="sxa__choice-icon">◁▷</span>
+            <span class="sxa__choice-label">Temples</span>
+          </div>
+          <div class="sxa__choice" data-val="Hairline">
+            <span class="sxa__choice-icon">⌒</span>
+            <span class="sxa__choice-label">Hairline</span>
+          </div>
+          <div class="sxa__choice" data-val="Overall thinning">
+            <span class="sxa__choice-icon">☁</span>
+            <span class="sxa__choice-label">Overall Thinning</span>
+          </div>
+          <div class="sxa__choice" data-val="No specific area — I want volume/length">
+            <span class="sxa__choice-icon">✦</span>
+            <span class="sxa__choice-label">Volume & Length Only</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sxa__question">
+        <div class="sxa__qlabel">Are you experiencing hair thinning or loss?</div>
+        <div class="sxa__choices" data-field="thinning" data-trigger="thinning-cause">
+          <div class="sxa__choice" data-val="Yes, noticeably">Yes, noticeably</div>
+          <div class="sxa__choice" data-val="Some changes">Some changes, getting there</div>
+          <div class="sxa__choice" data-val="Not thinning — I want more volume/length">Not thinning — I want more volume or length</div>
+        </div>
+      </div>
+
+      <div class="sxa__question" id="thinning-cause" style="display:none;">
+        <div class="sxa__qlabel">Do you know what may be contributing to the thinning?</div>
+        <div class="sxa__choices sxa__choices--grid" data-field="thinning_cause" data-multi="true">
+          <div class="sxa__choice" data-val="Hormonal changes">Hormonal changes</div>
+          <div class="sxa__choice" data-val="Postpartum">Postpartum</div>
+          <div class="sxa__choice" data-val="Stress">Stress</div>
+          <div class="sxa__choice" data-val="Medication">Medication</div>
+          <div class="sxa__choice" data-val="Alopecia">Alopecia</div>
+          <div class="sxa__choice" data-val="Natural aging">Natural aging</div>
+          <div class="sxa__choice" data-val="I'm not sure">I'm not sure</div>
+        </div>
+      </div>
+
+      <div class="sxa__nav">
+        <button type="button" class="sxa__btn" onclick="sxaNext(2)">Continue <span class="sxa__btn-arrow">→</span></button>
+        <button type="button" class="sxa__btn sxa__btn--ghost" onclick="sxaGoTo(1)">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: LIFESTYLE & GOALS ── -->
+  <div class="sxa__step" data-step="3">
+    <div class="sxa__inner">
+      <div class="sxa__eyebrow">Step 3 · Your Lifestyle</div>
+      <h2 class="sxa__h2">Your Hair Should Fit <em>Your Life</em></h2>
+      <p class="sxa__lead">Your daily routine shapes the perfect recommendation. Let's make sure whatever we create works beautifully for the way you actually live.</p>
+
+      <div class="sxa__question">
+        <div class="sxa__qlabel">How would you describe your daily lifestyle?</div>
+        <div class="sxa__choices sxa__choices--grid" data-field="lifestyle">
+          <div class="sxa__choice" data-val="Very active / athletic">
+            <span class="sxa__choice-icon">🏃‍♀️</span>
+            <span class="sxa__choice-label">Active & Athletic</span>
+            <span class="sxa__choice-sub">workouts, swimming, outdoors</span>
+          </div>
+          <div class="sxa__choice" data-val="Busy professional">
+            <span class="sxa__choice-icon">💼</span>
+            <span class="sxa__choice-label">Busy Professional</span>
+            <span class="sxa__choice-sub">polished, pulled-together always</span>
+          </div>
+          <div class="sxa__choice" data-val="Mix of both">
+            <span class="sxa__choice-icon">✦</span>
+            <span class="sxa__choice-label">A Bit of Both</span>
+            <span class="sxa__choice-sub">balance is everything</span>
+          </div>
+          <div class="sxa__choice" data-val="Relaxed, low-key">
+            <span class="sxa__choice-icon">☁</span>
+            <span class="sxa__choice-label">Relaxed & Low-Key</span>
+            <span class="sxa__choice-sub">easy, effortless, natural</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sxa__question">
+        <div class="sxa__qlabel">How often do you heat style your hair?</div>
+        <div class="sxa__choices" data-field="heat_styling">
+          <div class="sxa__choice" data-val="Daily">Daily</div>
+          <div class="sxa__choice" data-val="A few times a week">A few times a week</div>
+          <div class="sxa__choice" data-val="Occasionally">Occasionally</div>
+          <div class="sxa__choice" data-val="Rarely / air dry">Rarely — I air dry</div>
+        </div>
+      </div>
+
+      <div class="sxa__question">
+        <div class="sxa__qlabel">What is your primary hair goal?</div>
+        <div class="sxa__choices sxa__choices--grid" data-field="goal" data-required="true">
+          <div class="sxa__choice" data-val="Length and volume">Length & Volume</div>
+          <div class="sxa__choice" data-val="Volume only">Volume Only</div>
+          <div class="sxa__choice" data-val="Coverage for thinning">Coverage for Thinning</div>
+          <div class="sxa__choice" data-val="Full transformation">Full Transformation</div>
+          <div class="sxa__choice" data-val="Natural-looking enhancement">Natural Enhancement</div>
+          <div class="sxa__choice" data-val="Not sure yet">I'm not sure yet</div>
+        </div>
+        <div class="sxa__error" id="err-goal">Please select a goal to continue.</div>
+      </div>
+
+      <div class="sxa__question">
+        <div class="sxa__qlabel">How do you feel about a maintenance routine?</div>
+        <div class="sxa__choices" data-field="maintenance">
+          <div class="sxa__choice" data-val="Fully committed to maintenance">Fully committed — I'll do what it takes</div>
+          <div class="sxa__choice" data-val="Prefer low-maintenance">I prefer low-maintenance</div>
+          <div class="sxa__choice" data-val="Somewhere in between">Somewhere in between</div>
+        </div>
+      </div>
+
+      <div class="sxa__question">
+        <div class="sxa__qlabel">Anything else you'd like Giselle to know? <em style="font-size:13px;color:var(--muted)">(optional)</em></div>
+        <textarea class="sxa__textarea" data-field="notes" placeholder="Tell us about your hair story, past experiences with extensions, any concerns, or what your dream hair looks like..."></textarea>
+      </div>
+
+      <div class="sxa__nav">
+        <button type="button" class="sxa__btn" onclick="sxaNext(3)">Continue <span class="sxa__btn-arrow">→</span></button>
+        <button type="button" class="sxa__btn sxa__btn--ghost" onclick="sxaGoTo(2)">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: INVESTMENT OVERVIEW ── -->
+  <div class="sxa__step" data-step="4">
+    <div class="sxa__inner">
+      <div class="sxa__eyebrow">Step 4 · Your Investment</div>
+      <h2 class="sxa__h2">Quality Hair is an <em>Investment in Yourself</em></h2>
+      <p class="sxa__lead">Every set is custom-crafted using premium human hair and meticulous application. The investment reflects the artistry, longevity, and transformation you receive.</p>
+
+      <div class="sxa__pricing-intro">
+        Pricing is determined by your unique hair needs — density, length, method, and gram weight. The ranges below are starting points. During your consultation, Giselle will provide an exact quote tailored to you.
+      </div>
+
+      <div class="sxa__tiers">
+        <div class="sxa__tier">
+          <div class="sxa__tier-name">Standard K-Tip Collection</div>
+          <div class="sxa__tier-price">Starting at <strong>$900</strong></div>
+          <div class="sxa__tier-desc">Individual keratin bonds for length, volume, or both. Ideal for women with medium to thick hair seeking a seamless, long-lasting result.</div>
+          <ul class="sxa__tier-items">
+            <li>100% human hair — Bellami Certified or Virgin</li>
+            <li>Lasts 3–4 months with proper care</li>
+            <li>Styling freedom — curl, straighten, updo-safe</li>
+            <li>Swim and sweat proof with proper aftercare</li>
+          </ul>
+        </div>
+
+        <div class="sxa__tier sxa__tier--featured">
+          <div class="sxa__tier-name">Micro K-Tip Collection</div>
+          <div class="sxa__tier-price">Starting at <strong>$1,200</strong></div>
+          <div class="sxa__tier-desc">A featherweight bond designed specifically for fine, delicate hair. The micro size distributes weight with precision — invisible, natural, and completely weightless in feel.</div>
+          <ul class="sxa__tier-items">
+            <li>Featherweight micro-bond technology</li>
+            <li>Engineered for fine and fragile strands</li>
+            <li>No stress on delicate hair</li>
+            <li>Natural movement from root to tip</li>
+          </ul>
+        </div>
+
+        <div class="sxa__tier">
+          <div class="sxa__tier-name">Mesh Integration & Beaded Topper</div>
+          <div class="sxa__tier-price"><strong>$1,500</strong> – <strong>$4,000</strong></div>
+          <div class="sxa__tier-desc">Premium solutions for significant thinning, crown coverage, and scalp-sensitive clients. Fully custom-fitted to your unique hair pattern and lifestyle — the most transformative services we offer.</div>
+          <ul class="sxa__tier-items">
+            <li>Custom mesh base or topper design</li>
+            <li>No direct attachment to fragile strands</li>
+            <li>Ideal for alopecia and postpartum thinning</li>
+            <li>Can be combined with K-Tip for full coverage</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="sxa__pricing-note">All services include a thorough consultation, custom color matching, and professional aftercare guidance. Removal fees apply separately.</p>
+
+      <div class="sxa__nav">
+        <button type="button" class="sxa__btn" onclick="sxaGoTo(5)">Continue to Contact Info <span class="sxa__btn-arrow">→</span></button>
+        <button type="button" class="sxa__btn sxa__btn--ghost" onclick="sxaGoTo(3)">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 5: CONTACT + PHOTOS ── -->
+  <div class="sxa__step" data-step="5">
+    <div class="sxa__inner">
+      <div class="sxa__eyebrow">Step 5 · Almost There</div>
+      <h2 class="sxa__h2">Let's Stay <em>Connected</em></h2>
+      <p class="sxa__lead">You're almost done. Share your details so Giselle can personally reach out and we can begin building your dream hair together.</p>
+
+      <!-- Hidden inputs for all assessment data -->
+      <input type="hidden" id="sxaHiddenBody" name="contact[body]" value="">
+      <input type="hidden" id="sxaHiddenService" name="contact[Method Interest]" value="">
+
+      <div class="sxa__fields sxa__fields--2col" style="margin-bottom:16px;">
+        <div class="sxa__field">
+          <label class="sxa__field-label" for="sxa-first">First Name <span>*</span></label>
+          <input class="sxa__input" type="text" id="sxa-first" name="contact[First Name]" placeholder="Your first name" required autocomplete="given-name">
+          <div class="sxa__error" id="err-first">Please enter your first name.</div>
+        </div>
+        <div class="sxa__field">
+          <label class="sxa__field-label" for="sxa-last">Last Name <span>*</span></label>
+          <input class="sxa__input" type="text" id="sxa-last" name="contact[Last Name]" placeholder="Your last name" required autocomplete="family-name">
+        </div>
+      </div>
+
+      <div class="sxa__fields" style="margin-bottom:16px;">
+        <div class="sxa__field">
+          <label class="sxa__field-label" for="sxa-email">Email Address <span>*</span></label>
+          <input class="sxa__input" type="email" id="sxa-email" name="contact[email]" placeholder="your@email.com" required autocomplete="email">
+          <div class="sxa__error" id="err-email">Please enter a valid email address.</div>
+        </div>
+      </div>
+
+      <div class="sxa__fields sxa__fields--2col" style="margin-bottom:16px;">
+        <div class="sxa__field">
+          <label class="sxa__field-label" for="sxa-phone">Phone Number <span>*</span></label>
+          <input class="sxa__input" type="tel" id="sxa-phone" name="contact[Phone]" placeholder="(213) 555-0100" required autocomplete="tel">
+          <div class="sxa__error" id="err-phone">Please enter your phone number.</div>
+        </div>
+        <div class="sxa__field">
+          <label class="sxa__field-label" for="sxa-ig">Instagram Handle <span style="color:var(--muted);font-size:9px;">optional</span></label>
+          <div class="sxa__field-wrap">
+            <span class="sxa__field-prefix">@</span>
+            <input class="sxa__input sxa__input--prefix" type="text" id="sxa-ig" name="contact[Instagram]" placeholder="yourhandle">
+          </div>
+        </div>
+      </div>
+
+      <div class="sxa__fields" style="margin-bottom:16px;">
+        <div class="sxa__field">
+          <label class="sxa__field-label" for="sxa-found">How did you hear about The Studio X Co.? <span>*</span></label>
+          <div class="sxa__select-wrap">
+            <select class="sxa__select" id="sxa-found" name="contact[How Found]" required>
+              <option value="" disabled selected>Select an option</option>
+              <option value="Instagram">Instagram</option>
+              <option value="TikTok">TikTok</option>
+              <option value="Google Search">Google Search</option>
+              <option value="Friend or Family Referral">Friend or Family Referral</option>
+              <option value="Yelp">Yelp</option>
+              <option value="Previous Client">I'm a previous client</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="sxa__error" id="err-found">Please let us know how you found us.</div>
+        </div>
+      </div>
+
+      <div class="sxa__field" id="sxa-referral-wrap" style="display:none;margin-bottom:16px;">
+        <label class="sxa__field-label" for="sxa-referral">Who referred you? <span style="color:var(--muted);font-size:9px;">optional</span></label>
+        <input class="sxa__input" type="text" id="sxa-referral" name="contact[Referred By]" placeholder="Their name or Instagram handle">
+      </div>
+
+      <!-- Photo Upload -->
+      <div class="sxa__upload-section">
+        <span class="sxa__upload-label">Hair Photos <span style="font-size:9px;color:var(--muted);letter-spacing:0.1em;font-weight:400;">Up to 3 · optional but encouraged</span></span>
+        <p class="sxa__upload-note">Upload photos of the top of your head, a side view, and any areas of concern. These help Giselle give you the most accurate recommendation possible. Photos are kept completely private.</p>
+
+        <div class="sxa__upload-zone" id="sxaDropZone">
+          <input type="file" id="sxaPhotoInput" accept="image/*" multiple>
+          <div class="sxa__upload-icon">✦</div>
+          <div class="sxa__upload-text">
+            <strong>Click to upload</strong> or drag photos here<br>
+            Top of head · Side view · Area of concern
+          </div>
+        </div>
+        <div class="sxa__upload-previews" id="sxaPreviews" style="display:none;"></div>
+        <p style="font-size:11px;color:var(--muted);margin-top:12px;line-height:1.5;">
+          Note: Please also DM your photos to <a href="https://www.instagram.com/thestudioxco" target="_blank" style="color:var(--gold);text-decoration:none;">@thestudioxco</a> on Instagram so Giselle can review them during your consultation.
+        </p>
+      </div>
+
+      <div class="sxa__nav">
+        <button type="submit" class="sxa__btn" id="sxaSubmitBtn" onclick="sxaPrepareSubmit()">
+          Submit My Assessment <span class="sxa__btn-arrow">→</span>
+        </button>
+        <button type="button" class="sxa__btn sxa__btn--ghost" onclick="sxaGoTo(4)">Back</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .sxa -->
+
+{%- endif -%}
+{%- endform -%}
+
+<script>
+(function() {
+  var current = 0;
+  var answers = {};
+
+  function goTo(step) {
+    var steps = document.querySelectorAll('.sxa__step');
+    steps.forEach(function(s) { s.classList.remove('is-active'); });
+    var target = document.querySelector('[data-step="' + step + '"]');
+    if (target) {
+      target.classList.add('is-active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    current = step;
+    updateProgress(step);
+  }
+
+  function updateProgress(step) {
+    var prog = document.getElementById('sxaProgress');
+    var fill = document.getElementById('sxaFill');
+    var label = document.getElementById('sxaStepLabel');
+    if (!prog) return;
+
+    if (step === 0 || step >= 6) {
+      prog.classList.remove('is-visible');
+      return;
+    }
+    prog.classList.add('is-visible');
+
+    var pct = ((step - 1) / 4) * 100;
+    if (step === 5) pct = 100;
+    fill.style.width = pct + '%';
+
+    var dots = document.querySelectorAll('.sxa__progress-dot');
+    dots.forEach(function(d, i) {
+      var n = i + 1;
+      d.classList.remove('is-done', 'is-active');
+      if (n < step) d.classList.add('is-done');
+      else if (n === step) d.classList.add('is-active');
+    });
+
+    if (label) label.textContent = 'Step ' + step + ' of 5';
+  }
+
+  function collectChoices(step) {
+    var container = document.querySelector('[data-step="' + step + '"]');
+    if (!container) return;
+    var groups = container.querySelectorAll('[data-field]');
+    groups.forEach(function(group) {
+      var field = group.getAttribute('data-field');
+      var multi = group.getAttribute('data-multi') === 'true';
+      if (group.tagName === 'TEXTAREA') {
+        answers[field] = group.value.trim();
+      } else {
+        var selected = Array.from(group.querySelectorAll('.sxa__choice.is-selected'))
+          .map(function(c) { return c.getAttribute('data-val'); });
+        answers[field] = multi ? selected.join(', ') : (selected[0] || '');
+      }
+    });
+  }
+
+  function validateStep(step) {
+    var valid = true;
+    var container = document.querySelector('[data-step="' + step + '"]');
+    if (!container) return true;
+
+    var required = container.querySelectorAll('[data-required="true"]');
+    required.forEach(function(group) {
+      var field = group.getAttribute('data-field');
+      var selected = group.querySelectorAll('.sxa__choice.is-selected');
+      var errEl = document.getElementById('err-' + field);
+      if (selected.length === 0) {
+        if (errEl) errEl.classList.add('is-visible');
+        valid = false;
+      } else {
+        if (errEl) errEl.classList.remove('is-visible');
+      }
+    });
+
+    if (step === 5) {
+      var first = document.getElementById('sxa-first');
+      var email = document.getElementById('sxa-email');
+      var phone = document.getElementById('sxa-phone');
+      var found = document.getElementById('sxa-found');
+
+      if (!first || !first.value.trim()) {
+        var e = document.getElementById('err-first');
+        if (e) e.classList.add('is-visible');
+        if (first) first.classList.add('is-invalid');
+        valid = false;
+      } else {
+        var e = document.getElementById('err-first');
+        if (e) e.classList.remove('is-visible');
+        if (first) first.classList.remove('is-invalid');
+      }
+
+      var emailVal = email ? email.value.trim() : '';
+      var emailOk = emailVal && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+      if (!emailOk) {
+        var e = document.getElementById('err-email');
+        if (e) e.classList.add('is-visible');
+        if (email) email.classList.add('is-invalid');
+        valid = false;
+      } else {
+        var e = document.getElementById('err-email');
+        if (e) e.classList.remove('is-visible');
+        if (email) email.classList.remove('is-invalid');
+      }
+
+      if (!phone || !phone.value.trim()) {
+        var e = document.getElementById('err-phone');
+        if (e) e.classList.add('is-visible');
+        if (phone) phone.classList.add('is-invalid');
+        valid = false;
+      } else {
+        var e = document.getElementById('err-phone');
+        if (e) e.classList.remove('is-visible');
+        if (phone) phone.classList.remove('is-invalid');
+      }
+
+      if (!found || !found.value) {
+        var e = document.getElementById('err-found');
+        if (e) e.classList.add('is-visible');
+        if (found) found.classList.add('is-invalid');
+        valid = false;
+      } else {
+        var e = document.getElementById('err-found');
+        if (e) e.classList.remove('is-visible');
+        if (found) found.classList.remove('is-invalid');
+      }
+    }
+
+    return valid;
+  }
+
+  window.sxaGoTo = goTo;
+
+  window.sxaNext = function(fromStep) {
+    collectChoices(fromStep);
+    if (!validateStep(fromStep)) return;
+    goTo(fromStep + 1);
+  };
+
+  window.sxaToggleService = function(card) {
+    card.classList.toggle('is-selected');
+  };
+
+  // Thinning cause show/hide
+  document.addEventListener('click', function(e) {
+    var choice = e.target.closest('.sxa__choice');
+    if (!choice) return;
+    var group = choice.closest('[data-field]');
+    if (!group) return;
+    var multi = group.getAttribute('data-multi') === 'true';
+    if (!multi) {
+      group.querySelectorAll('.sxa__choice').forEach(function(c) { c.classList.remove('is-selected'); });
+    }
+    choice.classList.toggle('is-selected');
+
+    // Show thinning cause if thinning = yes
+    var trigger = group.getAttribute('data-trigger');
+    if (trigger) {
+      var el = document.getElementById(trigger);
+      if (el) {
+        var val = choice.getAttribute('data-val');
+        var show = choice.classList.contains('is-selected') && (val === 'Yes, noticeably' || val === 'Some changes');
+        el.style.display = show ? 'block' : 'none';
+      }
+    }
+
+    // Clear required error on selection
+    var field = group.getAttribute('data-field');
+    var errEl = document.getElementById('err-' + field);
+    if (errEl && group.querySelectorAll('.sxa__choice.is-selected').length > 0) {
+      errEl.classList.remove('is-visible');
+    }
+  });
+
+  // Referral field show/hide
+  var foundSel = document.getElementById('sxa-found');
+  if (foundSel) {
+    foundSel.addEventListener('change', function() {
+      var wrap = document.getElementById('sxa-referral-wrap');
+      if (wrap) wrap.style.display = this.value === 'Friend or Family Referral' ? 'block' : 'none';
+    });
+  }
+
+  // Photo upload
+  var photoInput = document.getElementById('sxaPhotoInput');
+  var previews = document.getElementById('sxaPreviews');
+  var dropZone = document.getElementById('sxaDropZone');
+  var photoFiles = [];
+  var PHOTO_LABELS = ['Top of Head', 'Side View', 'Area of Concern'];
+
+  function renderPreviews() {
+    if (!previews) return;
+    previews.innerHTML = '';
+    if (photoFiles.length === 0) { previews.style.display = 'none'; return; }
+    previews.style.display = 'grid';
+    photoFiles.forEach(function(file, i) {
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        var div = document.createElement('div');
+        div.className = 'sxa__upload-preview';
+        div.innerHTML = '<img src="' + ev.target.result + '" alt="Hair photo ' + (i+1) + '">'
+          + '<div class="sxa__upload-preview-label">' + (PHOTO_LABELS[i] || 'Photo ' + (i+1)) + '</div>'
+          + '<button type="button" class="sxa__upload-remove" data-idx="' + i + '">✕</button>';
+        previews.appendChild(div);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (photoInput) {
+    photoInput.addEventListener('change', function() {
+      var newFiles = Array.from(this.files).slice(0, 3 - photoFiles.length);
+      photoFiles = photoFiles.concat(newFiles).slice(0, 3);
+      renderPreviews();
+      this.value = '';
+    });
+  }
+
+  if (previews) {
+    previews.addEventListener('click', function(e) {
+      var btn = e.target.closest('.sxa__upload-remove');
+      if (!btn) return;
+      var idx = parseInt(btn.getAttribute('data-idx'), 10);
+      photoFiles.splice(idx, 1);
+      renderPreviews();
+    });
+  }
+
+  if (dropZone) {
+    dropZone.addEventListener('dragover', function(e) { e.preventDefault(); this.classList.add('is-drag'); });
+    dropZone.addEventListener('dragleave', function() { this.classList.remove('is-drag'); });
+    dropZone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.classList.remove('is-drag');
+      var dropped = Array.from(e.dataTransfer.files).filter(function(f) { return f.type.startsWith('image/'); });
+      photoFiles = photoFiles.concat(dropped).slice(0, 3);
+      renderPreviews();
+    });
+  }
+
+  window.sxaPrepareSubmit = function() {
+    collectChoices(2);
+    collectChoices(3);
+
+    // Collect services
+    var serviceCards = document.querySelectorAll('.sxa__service-card.is-selected');
+    var services = Array.from(serviceCards).map(function(c) { return c.querySelector('.sxa__service-name').textContent.trim(); });
+    var serviceHidden = document.getElementById('sxaHiddenService');
+    if (serviceHidden) serviceHidden.value = services.length ? services.join(', ') : 'Not yet selected';
+
+    // Collect first+last name into contact[name]
+    var first = document.getElementById('sxa-first');
+    var last = document.getElementById('sxa-last');
+    // Build full summary body
+    var lines = [
+      '═══════════════════════════════════════',
+      'THE STUDIO X CO — VIRTUAL HAIR ASSESSMENT',
+      '═══════════════════════════════════════',
+      '',
+      '── SERVICE INTEREST ──',
+      'Method(s) of Interest: ' + (services.length ? services.join(', ') : 'Not yet selected'),
+      '',
+      '── HAIR ASSESSMENT ──',
+      'Current Density: ' + (answers.density || '—'),
+      'Current Length: ' + (answers.length || '—'),
+      'Areas of Concern: ' + (answers.areas || '—'),
+      'Experiencing Thinning: ' + (answers.thinning || '—'),
+      'Possible Cause: ' + (answers.thinning_cause || '—'),
+      '',
+      '── LIFESTYLE & GOALS ──',
+      'Lifestyle: ' + (answers.lifestyle || '—'),
+      'Heat Styling: ' + (answers.heat_styling || '—'),
+      'Primary Goal: ' + (answers.goal || '—'),
+      'Maintenance Preference: ' + (answers.maintenance || '—'),
+      '',
+      '── NOTES ──',
+      answers.notes || '(No additional notes)',
+      '',
+      '── PHOTOS ──',
+      photoFiles.length > 0
+        ? 'Client uploaded ' + photoFiles.length + ' photo(s). Check Instagram DM for hair photos.'
+        : 'No photos uploaded — remind client to DM photos to @thestudioxco',
+      '',
+      '═══════════════════════════════════════'
+    ];
+    var bodyHidden = document.getElementById('sxaHiddenBody');
+    if (bodyHidden) bodyHidden.value = lines.join('\n');
+  };
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hair Assessment Form",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Hair Assessment Form"
+    }
+  ]
+}
+{% endschema %}
